@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101010">
+  <title>Загрузить видео — re:plica</title>
+  <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/enhancements.css"><link rel="stylesheet" href="/community.css">
+  <link rel="stylesheet" href="/monochrome.css">
+</head>
+<body class="admin-page upload-page">
+  <header class="topbar admin-topbar"><a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a><div class="studio-label"><span class="studio-icon">✳</span> Загрузка видео</div><div class="top-actions"><a class="admin-link" href="/workspace/">Мои режимы <span>↗</span></a><a id="admin-link" class="admin-link hidden" href="/admin/">Админка <span>↗</span></a><a class="admin-link" href="/">Каталог сцен <span>↗</span></a><button class="text-button" id="logout">Выйти</button></div></header>
+  <main class="admin-shell upload-shell">
+    <section class="admin-intro upload-intro"><div><div class="eyebrow"><span>01 — ЗАГРУЗКА</span><i></i> ИСХОДНЫЙ РОЛИК</div><h1>Добавь видео<br><em>для будущей сцены.</em></h1><p>Здесь только загрузка исходника. После неё откроется отдельный редактор реплик и таймингов.</p><a class="secondary-button browse-scenes" href="/workspace/">← Вернуться к режимам</a></div><div class="admin-note"><img src="/assets/re-plica-mark.svg" alt=""><div><b id="workspace-name">Автор</b><small id="workspace-role">Творческое пространство</small></div></div></section>
+    <section class="upload-panel"><div class="panel-heading"><div class="step-number">01</div><div><h2>Загрузить исходный ролик</h2><p>Видео сохранится в твоих проектах как личный черновик</p></div></div>
+      <form id="project-form"><label class="drop-zone" for="project-file"><input id="project-file" type="file" accept="video/mp4,video/webm,video/quicktime,.m4v" required><span class="upload-glyph">↑</span><b id="project-file-label">Выбери своё видео</b><small>MP4, WebM, MOV · до 800 МБ</small></label><div class="upload-fields"><label>Название сцены<input id="project-title" maxlength="140" placeholder="Например, Разговор у станции" required></label><label>Контекст сцены <span class="optional">необязательно</span><input id="project-description" maxlength="1200" placeholder="Коротко опиши сцену"></label></div><div class="upload-footer"><span id="project-upload-status" class="form-status">После загрузки перейдёшь к разметке реплик.</span><button class="primary-button" type="submit">Загрузить видео <span>↑</span></button></div><div class="upload-progress" id="project-progress"><span></span></div></form>
+    </section>
+    <section class="upload-project-section"><div class="section-heading"><div><div class="eyebrow"><span>ПРОДОЛЖИТЬ РАБОТУ</span><i></i> МОИ ВИДЕО</div><h2>Загруженные сцены</h2></div><span class="catalog-count" id="upload-project-count">0 СЦЕН</span></div><div id="upload-project-list" class="project-list"><div class="empty-projects">Загружаем проекты…</div></div></section>
+  </main>
+  <footer class="admin-footer"><a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a><span>Сначала видео, потом реплики</span><span>re:plica · авторская студия</span></footer>
+  <script src="/upload.js" defer></script>
+</body>
+</html>

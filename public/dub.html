@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101010">
+  <title>Озвучить сцену — re:plica</title>
+  <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/enhancements.css"><link rel="stylesheet" href="/community.css"><link rel="stylesheet" href="/monochrome.css">
+</head>
+<body class="admin-page dub-page">
+  <header class="topbar admin-topbar"><a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a><div class="studio-label"><span class="studio-icon">✳</span> Пошаговая озвучка</div><div class="top-actions"><a class="admin-link" href="/workspace/">Мои режимы <span>↗</span></a><a id="admin-link" class="admin-link hidden" href="/admin/">Админка <span>↗</span></a><a class="admin-link" href="/">Каталог сцен <span>↗</span></a><button class="text-button" id="logout">Выйти</button></div></header>
+  <main class="admin-shell dub-shell">
+    <section class="admin-intro dub-intro"><div><div class="eyebrow"><span>02 — ОЗВУЧКА</span><i></i> ОДНА РЕПЛИКА ЗА РАЗ</div><h1>Поймай фразу.<br><em>Дай ей голос.</em></h1><p>Слушай оригинальную сцену, выбирай реплику и записывай голос. Для каждой реплики есть отдельная дорожка с таймкодом.</p><a class="secondary-button browse-scenes" href="/workspace/">← Вернуться к режимам</a></div><div class="admin-note"><img src="/assets/re-plica-mark.svg" alt=""><div><b id="workspace-name">Автор</b><small id="workspace-role">Творческое пространство</small></div></div></section>
+    <section id="scene-picker" class="scene-picker">
+      <div id="resume-dubs-section" class="picker-group hidden"><div class="section-heading"><div><div class="eyebrow"><span>ПРОДОЛЖИТЬ</span><i></i> МОИ ОЗВУЧКИ</div><h2>Вернуться к сцене</h2></div></div><div class="picker-grid" id="resume-dubs"></div></div>
+      <div class="picker-group"><div class="section-heading"><div><div class="eyebrow"><span>КАТАЛОГ</span><i></i> ГОТОВЫЕ СЦЕНЫ</div><h2>Выбери, что озвучить</h2></div></div><div class="picker-grid" id="catalog-scenes"><div class="loading-card">Загружаем сцены…</div></div></div>
+      <div class="picker-group"><div class="section-heading"><div><div class="eyebrow"><span>ТВОИ ВИДЕО</span><i></i> ЛИЧНЫЕ СЦЕНЫ</div><h2>Озвучить свой ролик</h2></div><a class="text-link" href="/workspace/create/">Загрузить видео <span>↗</span></a></div><div class="picker-grid" id="personal-scenes"><div class="loading-card">Загружаем свои сцены…</div></div></div>
+    </section>
+    <section id="voice-booth" class="voice-booth hidden">
+      <div class="booth-topline"><button id="back-to-picker" class="text-button">К выбору сцен</button><span id="booth-project-title">Озвучка</span><button id="restart-playback" class="text-button">Повторить оригинал</button></div>
+      <div class="booth-progress"><div class="booth-progress-copy"><span id="line-progress-label">РЕПЛИКА 01 / 01</span><span id="line-progress-count">0 из 0 готово</span></div><div class="booth-progress-track"><span id="line-progress-bar"></span></div></div>
+      <section class="audio-editor" aria-label="Аудиодорожки сцены">
+        <div class="audio-editor-head"><div><div class="audio-editor-kicker">МУЛЬТИТРЕКОВАЯ СЕССИЯ</div><h2>Дорожки сцены</h2></div><div class="audio-editor-meta"><span id="timeline-duration">00:00</span><span class="session-rate">48 kHz · mono</span></div></div>
+        <div class="audio-ruler-wrap"><div class="ruler-spacer"></div><div class="timeline-ruler" id="timeline-ruler"><span>00:00</span><span>00:00</span><span>00:00</span><span>00:00</span><span>00:00</span></div></div>
+        <div class="audio-track-row"><div class="track-label"><span class="track-icon">V</span><span><b>Оригинал</b><small>ЗВУК СЦЕНЫ</small></span></div><div class="track-lane" id="original-track"><canvas id="original-waveform" aria-label="Волновая форма оригинального звука"></canvas><div class="timeline-playhead"></div></div></div>
+        <div class="voice-track-group"><b>МОЙ ГОЛОС</b><span id="voice-track-status">0 ИЗ 0 ЗАПИСАНО</span><small>Отдельная дорожка для каждой реплики</small></div>
+        <div id="voice-track" class="voice-track-stack" aria-label="Отдельная дорожка каждой реплики"></div>
+        <div class="audio-editor-footer"><div class="timeline-meter"><span>УРОВЕНЬ</span><div class="meter-shell"><i id="audio-meter-fill"></i></div><small id="audio-meter-value">−∞ dB</small></div><span class="timeline-hint">Выбери реплику на таймлайне, чтобы перейти к ней</span></div>
+      </section>
+      <div class="booth-layout">
+        <div class="booth-screen"><video id="line-video" playsinline preload="metadata"></video><div class="mini-clip-label"><span class="live-dot"></span> ПРЕДПРОСМОТР СЦЕНЫ</div><div class="mini-clip-time" id="mini-clip-time">00:00:00 — 00:00:00</div><div id="mini-clip-placeholder" class="video-placeholder"><span>▶</span><b>Подготавливаем сцену</b><small>Видео остаётся цельным — реплики отмечены на дорожках</small></div></div>
+        <aside class="line-console"><div class="line-console-kicker"><span id="line-role">ПЕРСОНАЖ</span><span id="line-number">01</span></div><h2 id="line-text">Текст реплики</h2><p class="line-instruction" id="line-instruction">Послушай оригинал, затем запиши свою версию.</p><div class="line-actions"><button id="play-original" class="secondary-button" type="button">Послушать оригинал</button><button id="record-dub" class="primary-button" type="button">Записать дубль</button></div><div class="dub-state" id="dub-state" aria-live="polite"></div><div class="take-review"><div class="take-review-heading"><span>ТВОЙ ДУБЛЬ</span><span id="take-state">ПОКА НЕТ</span></div><div id="take-empty" class="take-empty">Запись появится здесь после остановки микрофона.</div><div id="take-preview-controls" class="take-preview-controls hidden"><button id="play-take" class="take-play-button" type="button" aria-label="Прослушать дубль">▶</button><span id="take-duration">00:00</span><span class="take-saved-label">ВОЛНОВАЯ ФОРМА НА ТАЙМЛАЙНЕ</span></div><audio id="take-player" class="hidden" preload="metadata"></audio><button id="retake-dub" class="text-button hidden" type="button">Записать ещё раз</button></div><div class="booth-nav"><button id="previous-line" class="secondary-button" type="button">Назад</button><button id="next-line" class="primary-button" type="button" disabled>Следующая реплика</button></div></aside>
+      </div>
+      <section id="mix-stage" class="mix-stage hidden"><div class="mix-stage-copy"><div class="eyebrow"><span>ФИНАЛЬНЫЙ ШАГ</span><i></i> СБОРКА</div><h2 id="mix-title">Все реплики записаны</h2><p>Соберём твои дубли в одну WAV-дорожку и расставим их по таймкодам сцены. Пока идёт сборка, можно подождать на этой странице.</p></div><button id="build-mix" class="primary-button" type="button">Собрать дорожку <span>↗</span></button><div id="mix-status" class="mix-status" aria-live="polite"></div><div id="mix-result" class="mix-result hidden"><audio id="mix-player" controls preload="metadata"></audio><a id="download-mix" class="secondary-button" download>Скачать WAV <span>↓</span></a><button id="submit-dub" class="submit-project" type="button">Отправить озвучку на модерацию</button></div></section>
+    </section>
+  </main>
+  <footer class="admin-footer"><a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a><span>Записывай по одной реплике</span><span>re:plica · авторская студия</span></footer>
+  <script src="/dub.js" defer></script>
+</body>
+</html>

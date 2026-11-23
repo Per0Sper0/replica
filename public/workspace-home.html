@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101010">
+  <title>Студия — re:plica</title>
+  <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/enhancements.css"><link rel="stylesheet" href="/community.css">
+  <link rel="stylesheet" href="/monochrome.css">
+</head>
+<body class="admin-page workspace-home-page">
+  <header class="topbar admin-topbar">
+    <a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a>
+    <div class="studio-label"><span class="studio-icon">✳</span> Пространство автора</div>
+    <div class="top-actions"><a id="admin-link" class="admin-link hidden" href="/admin/">Админка <span>↗</span></a><a class="admin-link" href="/">Каталог сцен <span>↗</span></a><button class="text-button" id="logout">Выйти</button></div>
+  </header>
+  <main class="admin-shell workspace-home-shell">
+    <section class="admin-intro workspace-home-intro">
+      <div><div class="eyebrow"><span>ТВОЯ СТУДИЯ</span><i></i> ВЫБЕРИ РЕЖИМ</div><h1 id="welcome-title">Работай со сценой<br><em>по-своему.</em></h1><p>Создание сцен и озвучка идут отдельно: сначала подготовь видео и реплики или сразу перейди к готовой сцене.</p></div>
+      <div class="admin-note"><img src="/assets/re-plica-mark.svg" alt=""><div><b id="workspace-name">Автор</b><small id="workspace-role">Творческое пространство</small></div></div>
+    </section>
+    <section class="mode-grid" aria-label="Режимы работы">
+      <a class="mode-card mode-create" href="/workspace/create/"><span class="mode-number">01</span><span class="mode-icon">▤</span><span class="eyebrow">ИСХОДНОЕ ВИДЕО</span><h2>Загрузить видео</h2><p>Добавь ролик на отдельной странице. После загрузки откроется редактор реплик и таймингов.</p><span class="mode-stat" id="scene-count">0 МОИХ СЦЕН</span><span class="mode-action">Перейти к загрузке <b>↗</b></span></a>
+      <a class="mode-card mode-dub" href="/workspace/dub/"><span class="mode-number">02</span><span class="mode-icon">◉</span><span class="eyebrow">ПОШАГОВАЯ ОЗВУЧКА</span><h2>Озвучить сцену</h2><p>Выбери размеченную сцену из каталога или своих проектов. Записывай по одной реплике и собери финальную дорожку.</p><span class="mode-stat" id="dub-count">0 ОЗВУЧЕК</span><span class="mode-action">Начать озвучку <b>↗</b></span></a>
+    </section>
+    <section class="workspace-home-note"><span>i</span><p><b>Порядок работы с собственным видео:</b> загрузка → разметка на отдельной странице → сохранение личного черновика → отправка на модерацию. Озвучка начинается отдельно — после разметки сцены.</p></section>
+  </main>
+  <footer class="admin-footer"><a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a><span>Сначала сцена. Потом голос.</span><span>re:plica · авторская студия</span></footer>
+  <script src="/workspace-home.js" defer></script>
+</body>
+</html>

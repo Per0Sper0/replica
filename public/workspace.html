@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101010">
+  <title>Разметка сцены — re:plica</title>
+  <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/enhancements.css"><link rel="stylesheet" href="/community.css">
+  <link rel="stylesheet" href="/monochrome.css">
+</head>
+<body class="admin-page workspace-page create-scene-page">
+  <header class="topbar admin-topbar">
+    <a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a>
+    <div class="studio-label"><span class="studio-icon">✳</span> Разметка сцены</div>
+    <div class="top-actions"><a class="admin-link" href="/workspace/">Мои режимы <span>↗</span></a><a class="admin-link" href="/workspace/create/">Загрузить видео <span>↗</span></a><a id="admin-link" class="admin-link hidden" href="/admin/">Админка <span>↗</span></a><button class="text-button" id="logout">Выйти</button></div>
+  </header>
+  <main class="admin-shell">
+    <section class="admin-intro">
+      <div><div class="eyebrow"><span>02 — РАЗМЕТКА</span><i></i> ЧЕРНОВИК СЦЕНЫ</div><h1>Отметь каждую<br><em>реплику по времени.</em></h1><p>Сохраняй изменения в своём черновике. Когда разметка готова, отдельно отправь её на сайт — после проверки администратора сцена появится в каталоге.</p><a class="secondary-button browse-scenes" href="/workspace/">← Вернуться к режимам</a></div>
+      <div class="admin-note"><img src="/assets/re-plica-mark.svg" alt=""><div><b id="workspace-name">Автор</b><small id="workspace-role">Творческое пространство</small></div></div>
+    </section>
+    <section class="editor-section">
+      <div class="section-heading"><div><div class="eyebrow"><span>РЕДАКТОР СЦЕНЫ</span><i></i> ВИДЕО И ТАЙМИНГИ</div><h2>Разметка реплик</h2></div><div class="segment-actions"><select id="project-select" aria-label="Выберите свою сцену"><option value="">Загрузи или выбери сцену</option></select><a class="secondary-button" href="/workspace/create/">＋ Загрузить видео</a></div></div>
+      <div id="project-status-banner" class="project-status-banner hidden"></div>
+      <div class="editor-layout creator-editor-layout">
+        <div class="preview-column">
+          <div class="video-frame"><video id="project-video" controls playsinline preload="metadata"></video><div id="project-placeholder" class="video-placeholder"><span>▶</span><b>Здесь будет твой ролик</b><small>Сначала загрузи видео</small></div></div>
+          <div class="timeline-wrap"><div class="timeline-scale"><span>00:00:00</span><span id="project-duration">00:00:00</span></div><div id="project-timeline" class="timeline-track"><div id="project-playhead" class="timeline-playhead"></div></div><div class="timeline-legend">Каждый блок — отдельная реплика. Нажми на блок, чтобы перейти к её началу.</div></div>
+          <div class="video-meta"><div><b id="project-active-title">Сцена не выбрана</b><small id="project-active-description">Выбери свой черновик</small></div><button id="delete-my-project" class="icon-button danger-button" title="Удалить черновик" aria-label="Удалить черновик" disabled>⌫</button></div>
+          <div class="transcript-card"><div class="transcript-head"><div><span class="eyebrow">РАЗМЕТКА СЦЕНЫ</span><h3>Реплики и таймкоды</h3></div><span class="line-count" id="project-line-count">0 РЕПЛИК</span></div><div id="workspace-segments" class="workspace-segments"><div class="empty-lines">Выбери сцену и добавь реплику</div></div></div>
+        </div>
+        <aside class="cue-panel">
+          <div class="cue-header"><div class="step-number">01</div><div><h3>Добавить реплику</h3><p>Запись голоса будет на отдельной странице</p></div></div>
+          <div class="cue-form">
+            <label>Роль / персонаж<input id="project-role" placeholder="Например, Полнафеф"></label>
+            <label>Текст реплики<textarea id="project-text" rows="3" placeholder="Что говорит персонаж?" maxlength="2000"></textarea></label>
+            <div class="time-fields"><label>Начало<div class="time-input"><input id="project-start" type="text" inputmode="numeric" placeholder="00:00:00" maxlength="8"><button data-project-capture="start" type="button" title="Взять текущее время">●</button></div></label><label>Конец<div class="time-input"><input id="project-end" type="text" inputmode="numeric" placeholder="00:00:00" maxlength="8"><button data-project-capture="end" type="button" title="Взять текущее время">●</button></div></label></div>
+            <div class="time-help">Формат 00:00:00. Нажми ● в нужный момент видео.</div>
+            <button id="project-add-line" class="secondary-button" type="button">＋ Добавить реплику</button>
+            <div class="cue-divider"></div>
+            <button id="save-project" class="primary-button save-button" type="button">Сохранить в личный черновик <span>✓</span></button>
+            <div class="publish-note"><b>Сохранение и отправка — отдельно</b><p>Сначала сохрани разметку. Кнопка ниже отправит сохранённую версию на модерацию; после одобрения она появится в общем каталоге.</p></div>
+            <button id="submit-project" class="submit-project" type="button">Выгрузить на сайт</button>
+            <div id="project-save-status" class="save-status" aria-live="polite"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <section class="project-section"><div class="section-heading"><div><div class="eyebrow"><span>МОИ ПРОЕКТЫ</span><i></i> ЛИЧНЫЕ ЧЕРНОВИКИ</div><h2>Мои сцены</h2></div><span class="catalog-count" id="my-project-count">0 СЦЕН</span></div><div id="my-project-list" class="project-list"><div class="empty-projects">Загрузи видео, чтобы создать первую сцену.</div></div></section>
+  </main>
+  <footer class="admin-footer"><a class="brand" href="/"><img src="/assets/re-plica-logo.svg" alt="re:plica"></a><span>Сохрани черновик, затем отправь на проверку</span><span>re:plica · авторская студия</span></footer>
+  <script src="/workspace.js" defer></script>
+</body>
+</html>
