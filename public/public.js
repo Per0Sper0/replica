@@ -3,6 +3,7 @@ const count = document.querySelector('#catalog-count');
 const dialog = document.querySelector('#player-dialog');
 const dialogContent = document.querySelector('#dialog-content');
 let currentUser = null;
+let stopSync = null;
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const clock = seconds => { const s = Math.max(0, Math.floor(seconds || 0)); return `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor(s % 3600 / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
 
@@ -33,9 +34,20 @@ function openVideo(video) {
   const segments = [...(video.segments || [])].sort((a, b) => a.start - b.start);
   const next = `/workspace/dub/?source=${encodeURIComponent(video.id)}`;
   const dubAction = currentUser ? '<button class="primary-button dub-scene-button" id="dub-scene">Начать озвучку <span>↗</span></button>' : `<a class="primary-button dub-scene-button" href="/login/?next=${encodeURIComponent(next)}">Войти и озвучить <span>↗</span></a>`;
-  dialogContent.innerHTML = `<div class="dialog-kicker">СЦЕНА ДЛЯ ОЗВУЧКИ <span>${segments.length} ${segments.length === 1 ? 'РЕПЛИКА' : 'РЕПЛИК'}</span></div><h2>${esc(video.title)}</h2><p class="dialog-description">${esc(video.description || 'Попробуй услышать эту сцену по-своему.')}</p><div class="dialog-player-wrap"><video id="public-player" controls playsinline src="${esc(video.videoUrl)}"></video><div class="active-caption" id="active-caption">Выбери реплику или нажми воспроизведение</div></div><div class="public-transcript">${segments.length ? segments.map((segment, i) => `<div class="public-line-wrap"><button class="public-line" data-start="${Number(segment.start)}" data-index="${i}"><span class="line-time">${clock(segment.start)}</span><span><b>${esc(segment.role || `Реплика ${i + 1}`)}</b><small>${esc(segment.text)}</small></span><span class="line-arrow">▶</span></button>${segment.audioUrl ? `<audio class="public-voice" controls preload="none" src="${esc(segment.audioUrl)}" aria-label="Озвучка: ${esc(segment.role || `Реплика ${i + 1}`)}"></audio>` : ''}</div>`).join('') : '<div class="empty-lines">Для этой сцены реплики пока не размечены.</div>'}</div><div class="dub-scene-callout"><div><b>Хочешь озвучить эту сцену?</b><small>Создадим личный черновик с готовыми репликами.</small></div>${dubAction}</div>`;
+  document.querySelector('#dialog-line-count').textContent = `${segments.length} ${segments.length === 1 ? 'РЕПЛИКА' : 'РЕПЛИК'}`;
+  dialogContent.innerHTML = `<h2>${esc(video.title)}</h2><p class="dialog-description">${esc(video.description || 'Попробуй услышать эту сцену по-своему.')}</p><div class="dialog-player-wrap"><video id="public-player" controls playsinline src="${esc(video.videoUrl)}"></video><div class="active-caption" id="active-caption">Выбери реплику или нажми воспроизведение</div></div><div class="public-transcript">${segments.length ? segments.map((segment, i) => `<div class="public-line-wrap"><button class="public-line" data-start="${Number(segment.start)}" data-index="${i}"><span class="line-time">${clock(segment.start)}</span><span class="public-line-copy"><b>${esc(segment.role || `Реплика ${i + 1}`)}</b><small>${esc(segment.text)}</small></span><span class="line-arrow">▶</span></button>${segment.audioUrl ? `<audio class="public-voice" controls preload="none" src="${esc(segment.audioUrl)}" aria-label="Озвучка: ${esc(segment.role || `Реплика ${i + 1}`)}"></audio>` : ''}</div>`).join('') : '<div class="empty-lines">Для этой сцены реплики пока не размечены.</div>'}</div><section class="published-dubs"><h3>Версии исполнителей</h3>${(video.dubs || []).length ? `<button class="secondary-button" id="original-version">Оригинальный звук</button>${video.dubs.map(dub => `<div class="public-line-wrap"><b>${esc(dub.ownerName || 'Автор')}</b><button class="secondary-button" data-version="${esc(dub.id)}">Смотреть с этой озвучкой</button><a class="text-link" href="${esc(dub.mixUrl)}" download>Скачать WAV</a></div>`).join('')}` : '<p>Стань первым исполнителем этой сцены.</p>'}<audio id="version-audio" preload="none"></audio><p id="version-status" aria-live="polite"></p></section><div class="dub-scene-callout"><div><b>Хочешь озвучить эту сцену?</b><small>Создадим личный черновик с готовыми репликами.</small></div>${dubAction}</div>`;
+  stopSync?.(); stopSync = null;
   dialog.showModal();
   const player = dialogContent.querySelector('#public-player');
+  const versionAudio = dialogContent.querySelector('#version-audio');
+  dialogContent.querySelectorAll('[data-version]').forEach(button => button.addEventListener('click', () => {
+    const dub = video.dubs.find(item => item.id === button.dataset.version);
+    stopSync?.(); player.pause(); player.currentTime = 0; versionAudio.src = dub.mixUrl;
+    stopSync = ReplicaPlayback.connect(player, versionAudio, message => { dialogContent.querySelector('#version-status').textContent = message; });
+    dialogContent.querySelector('#version-status').textContent = `Озвучивает: ${dub.ownerName || 'Автор'}`;
+    player.play().catch(() => {});
+  }));
+  dialogContent.querySelector('#original-version')?.addEventListener('click', () => { stopSync?.(); stopSync = null; dialogContent.querySelector('#version-status').textContent = 'Оригинальный звук'; });
   const caption = dialogContent.querySelector('#active-caption');
   const lines = [...dialogContent.querySelectorAll('.public-line')];
   lines.forEach(button => button.addEventListener('click', () => { player.currentTime = Number(button.dataset.start); player.play(); }));
@@ -53,7 +65,7 @@ function openVideo(video) {
 
 document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
-dialog.addEventListener('close', () => { const player = dialogContent.querySelector('video'); if (player) player.pause(); });
+dialog.addEventListener('close', () => { stopSync?.(); stopSync = null; dialogContent.querySelectorAll('audio').forEach(audio => audio.pause()); const player = dialogContent.querySelector('video'); if (player) player.pause(); });
 fetch('/api/auth/me').then(response => response.json()).then(({ user }) => {
   currentUser = user;
   const link = document.querySelector('#account-link'); if (user) { link.href = '/workspace/'; link.innerHTML = 'Мои проекты <span aria-hidden="true">↗</span>'; }

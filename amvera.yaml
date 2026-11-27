@@ -2,9 +2,9 @@ meta:
   environment: node
   toolchain:
     name: npm
-    version: 20
+    version: 24
 
 run:
-  command: npm start
+  command: DATA_DIR=/data NODE_ENV=production npm start
   containerPort: 3000
   persistenceMount: /data
