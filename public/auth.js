@@ -1,6 +1,6 @@
 const params = new URLSearchParams(location.search);
 const next = params.get('next');
-const safeNext = next && next.startsWith('/') && !next.startsWith('//') ? next : '';
+const safeNext = next && next.startsWith('/') && !next.startsWith('//') && !next.includes('\\') ? next : '';
 const form = document.querySelector('#auth-form');
 const message = document.querySelector('#auth-message');
 if (safeNext) { const switchLink = document.querySelector('.auth-switch a'); switchLink.href = `${location.pathname.includes('register') ? '/login/' : '/register/'}?next=${encodeURIComponent(safeNext)}`; }

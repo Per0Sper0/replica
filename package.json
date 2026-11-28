@@ -4,10 +4,33 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node server.mjs",
-    "dev": "node --watch server.mjs"
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "dev": "node --env-file-if-exists=.env --watch server.mjs",
+    "test": "node --env-file-if-exists=.env --test test/server.test.mjs test/audio-trim.test.mjs",
+    "admin": "node --env-file-if-exists=.env scripts/admin.mjs",
+    "backup": "node --env-file-if-exists=.env scripts/backup.mjs",
+    "test:browser": "node --env-file-if-exists=.env --test test/browser.test.mjs",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose stop db",
+    "migrate:legacy": "node --env-file-if-exists=.env scripts/migrate-legacy.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24.0.0"
+  },
+  "dependencies": {
+    "@ffprobe-installer/ffprobe": "2.1.2",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "playwright": "1.58.2"
+  },
+  "allowScripts": {
+    "@ffprobe-installer/darwin-arm64@5.0.1": true,
+    "@ffprobe-installer/darwin-x64@5.1.0": true,
+    "@ffprobe-installer/linux-arm@5.2.0": true,
+    "@ffprobe-installer/linux-arm64@5.2.0": true,
+    "@ffprobe-installer/linux-ia32@5.2.0": true,
+    "@ffprobe-installer/linux-x64@5.2.0": true,
+    "fsevents@2.3.2": false
   }
 }
